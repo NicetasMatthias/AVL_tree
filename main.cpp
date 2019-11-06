@@ -144,17 +144,16 @@ public:
         balance(p);
         return p;
     }
-
-    void print(Node *q, long n)
+    void print_sub(Node *q, long n)
     {
        long i;
        if (q)
        {
-          print(q->right, n+5);
+          print_sub(q->right, n+5);
           for (i = 0; i < n; i++)
              printf(" ");
           printf("%d\n", q->key);
-          print(q->left, n+5);
+          print_sub(q->left, n+5);
        }
     }
 public:
@@ -183,9 +182,9 @@ public:
         else remove_sub(root, key);
         return true;
     }
-    void print_tree()
+    void print()
     {
-        print(root,0);
+        print_sub(root,0);
     }
 };
 
@@ -193,7 +192,7 @@ public:
 int main()
 {
     int n;
-    cout << "number of nodes" << endl;
+    cout << "Number of nodes:";
     cin >> n;
     AVL_tree tree;
     TYPE tmp;
@@ -206,8 +205,7 @@ int main()
         tree.add(tmp);
         cout << tmp << " | ";
     }
-    cout <<"\nMy tree:" << endl;
-    tree.print_tree();
-    cout << "End" << endl;
+    cout <<"\nResult tree:\n\n";
+    tree.print();
     return 0;
 }
