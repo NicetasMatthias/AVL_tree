@@ -16,17 +16,17 @@ public:
         unsigned char height;
         Node(TYPE t) {key=t; left=right=nullptr; height=1; }
     };
-    Node *root;
-    unsigned char height(Node *p)
+    Node *root; //корень дерева
+    unsigned char height(Node *p) //вычисление высоты поддерева p
     {
         if (p!=nullptr) return p->height;
         else return 0;
     }
-    int bfactor(Node *p)
+    int bfactor(Node *p) //вычисление разницы высот правого и левого поддерева узла p
     {
         return height(p->right)-height(p->left);
     }
-    void fix_height(Node *p)
+    void fix_height(Node *p) // восстановление правильного значения высоты поддерева p
     {
         if ((p->left!=nullptr)&&(p->right!=nullptr))
         {
@@ -46,7 +46,7 @@ public:
         }
         return;
     }
-    void rotate_right(Node *&p)
+    void rotate_right(Node *&p) // праввый поворот относительно узла p
     {
         Node *new_p =p->left;
         Node *tmp = p;
@@ -56,7 +56,7 @@ public:
         fix_height(new_p);
         p=new_p;
     }
-    void rotate_left(Node *&p)
+    void rotate_left(Node *&p) // левый поворот относительно узла p
     {
         Node *new_p =p->right;
         Node *tmp = p;
@@ -85,7 +85,7 @@ public:
         }
         return;
     }
-    Node* search(TYPE key)
+    Node* search(TYPE key) // поиск в дереве узла с заданым ключом
     {
         Node *current=root;
         while (current!=nullptr)
@@ -96,7 +96,7 @@ public:
         }
         return nullptr;
     }
-    Node* insert(Node *&p, TYPE key)
+    Node* insert(Node *&p, TYPE key) //вставка нового узла с ключом key в дерево p
     {
         if(p == nullptr)
         {
@@ -110,7 +110,7 @@ public:
         balance(p);
         return p;
     }
-    Node* find_min(Node *p)
+    Node* find_min(Node *p) // поиск узла с минимальным ключом в дереве p
     {
         if (p->left == nullptr) return p;
         else return find_min(p->left);
@@ -123,13 +123,13 @@ public:
         balance(p);
         return p;
     }
-    Node* remove_sub(Node *&p, int k) // удаление ключа k из дерева p
+    Node* remove_sub(Node *&p, int key) // удаление ключа key из дерева p
     {
-        if( k < p->key )
-            p->left = remove_sub(p->left,k);
-        else if( k > p->key )
-            p->right = remove_sub(p->right,k);
-        else //  k == p->key
+        if( key < p->key )
+            p->left = remove_sub(p->left,key);
+        else if( key > p->key )
+            p->right = remove_sub(p->right,key);
+        else //  при k == p->key
         {
             Node* q = p->left;
             Node* r = p->right;
@@ -144,7 +144,7 @@ public:
         balance(p);
         return p;
     }
-    void print_sub(Node *q, long n)
+    void print_sub(Node *q, long n) //вспомогательная рекурсивная функция для вывода дерева на экран
     {
        long i;
        if (q)
@@ -157,15 +157,11 @@ public:
        }
     }
 public:
-    AVL_tree()
+    AVL_tree() // конструктор дерева
     {
         root=nullptr;
     }
-    AVL_tree(TYPE key)
-    {
-        root=new Node(key);
-    }
-    bool add(TYPE key)
+    bool add(TYPE key) // добавление узла с ключом k в дерево с последующей балансировкой
     {
         if (search(key)==nullptr)
         {
@@ -175,14 +171,14 @@ public:
         else return false;
 
     }
-    bool remove(TYPE key)
+    bool remove(TYPE key) // удаление узла с ключом k из дерева с последующей балансировкой
     {
         Node *target = search(key);
         if (target==nullptr) return false;
         else remove_sub(root, key);
         return true;
     }
-    void print()
+    void print() //вывод дерева в консоль
     {
         print_sub(root,0);
     }
