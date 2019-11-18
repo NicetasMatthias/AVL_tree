@@ -7,7 +7,7 @@ using namespace std;
 
 class AVL_tree
 {
-public:
+private:
     struct Node
     {
         TYPE key;
@@ -182,13 +182,18 @@ public:
     {
         print_sub(root,0);
     }
+    bool is_exist(TYPE key)
+    {
+        if (search(key)==nullptr) return false;
+        else return true;
+    }
 };
 
 
 int main()
 {
     int n;
-    cout << "Number of nodes:";
+    cout << "Number of nodes: ";
     cin >> n;
     AVL_tree tree;
     TYPE tmp;
@@ -196,7 +201,7 @@ int main()
     for (int i=0;i<n;i++)
     {
         tmp=(rand()%(MAX_ABS*2))-MAX_ABS;
-        while (tree.search(tmp)!=nullptr)
+        while (tree.is_exist(tmp))
             tmp=(rand()%(MAX_ABS*2))-MAX_ABS;
         tree.add(tmp);
         cout << tmp << " | ";
